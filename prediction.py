@@ -44,14 +44,14 @@ def prediction(dataframe):
 
     dataframe = dataframe.fillna(0)
 
-    file1 = open("/home/pmf/PMF/Train_mean_std_final.txt", "r")
+    file1 = open("/home/pmf/PMF/Train_mean_std_final.txt", "r")             #Change Path to where the file "Train:mean_std_final.txt" is located on your machine
     mean_and_sdt = file1.read().split('\n')
     len(mean_and_sdt) // 2
     train_mean = [float(x.split(' ')[-1]) for x in mean_and_sdt[:len(mean_and_sdt) // 2]]
     train_std = [float(x.split(' ')[-1]) for x in mean_and_sdt[:len(mean_and_sdt) // 2]]
     file1.close()
     example = (dataframe - train_mean) / train_std
-    model = tf.keras.models.load_model('/home/pmf/PMF/lstm_model_6h')
+    model = tf.keras.models.load_model('/home/pmf/PMF/lstm_model_6h')  #Change Path to where the model "lstm_model_6h" is located on your machine
 
     output = pd.DataFrame(model.predict(np.array([tf.constant(example)]))[0])
 
