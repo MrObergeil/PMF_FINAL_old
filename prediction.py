@@ -20,7 +20,7 @@ def prediction(dataframe):
     dataframe['ziel'] = ziel
     dataframe = dataframe[['ziel']]
 
-    #wetterDatenPath = '/home/pmf/tensorflowFlasksRuntime/wetterDaten.xlsx'
+    #wetterDatenPath = '/home/pmf/PMF/wetterDaten.xlsx'
     #df_luftdruck = pd.read_excel(wetterDatenPath, sheet_name=3)[3:]
     #df_luftdruck = pd.DataFrame(df_luftdruck[['Graz-N']].replace(0, np.NaN).T.mean(), columns=['luftdruck'])
     #df_luftdruck = df_luftdruck.astype('float')
