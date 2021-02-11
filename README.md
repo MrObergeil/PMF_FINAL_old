@@ -2,13 +2,14 @@ Particular Matter Forecast
  
 PMF Documentation:
 
+___
+
  
 System Requirements:
  
 -CPU with AVX/AVX2 support -GPU with CUDA support beneficial -Linux operating system with GUI (Ubuntu 20.04) -Internet connection
  
 ___
-Contents:
  
 Configuration:
  
@@ -54,6 +55,7 @@ $ sudo chmod +x /usr/local/bin/docker-compose
  
 Verify installation $ docker-compose --version
  
+ ___
  
 In your terminal switch to the folder "KafkaCluster", inside the "PMF_FINAL-main" repository. This folder  contains the docker-compose.yml file, with the configurations for Kafka Cluster.
  
