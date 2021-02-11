@@ -7,10 +7,10 @@ ___
  
 System Requirements:
  
--CPU with AVX/AVX2 support 
--GPU with CUDA support beneficial 
--Linux operating system with GUI (Ubuntu 20.04) 
--Internet connection
+1. CPU with AVX/AVX2 support 
+2. GPU with CUDA support beneficial 
+3. Linux operating system with GUI (Ubuntu 20.04) 
+4. Internet connection
  
 ___
  
