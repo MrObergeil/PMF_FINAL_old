@@ -7,7 +7,10 @@ ___
  
 System Requirements:
  
--CPU with AVX/AVX2 support -GPU with CUDA support beneficial -Linux operating system with GUI (Ubuntu 20.04) -Internet connection
+-CPU with AVX/AVX2 support 
+-GPU with CUDA support beneficial 
+-Linux operating system with GUI (Ubuntu 20.04) 
+-Internet connection
  
 ___
  
@@ -20,6 +23,7 @@ SET UP THE REPOSITORY Update the apt package index and install packages to allow
 $ sudo apt-get update
  
 $ sudo apt-get install apt-transport-https
+
 ca-certificates
 curl
 gnupg-agent
@@ -41,7 +45,7 @@ Install Docker $ sudo apt install docker-ce
  
 Check if Docker installation worked: "Status Active" $ sudo systemctl status docker
  
-Run Docker test image to verify installation
+Run Docker test image to verify installation(might need root permissions)
  
 $docker run hello-world
  
@@ -64,12 +68,22 @@ $ cd home/<user>/<downloadLocation>/PMF_FINAL-main/KafkaCluster
 Start Docker Container via Yaml-File, the Kafka Cluster is named kafka-cluster in the Yaml-File.
  
 $ sudo docker-compose up kafka-cluster
+
+This will download the required Docker-Image and start your Cluster
  
 Wait 1-2 min for the cluster to start up
  
 Access LensesIO-Webinterface via "127.0.0.1:3030" to monitor and check the status of your Kafka Cluster
+
+Your Kafka Cluster should now be ready to use
  
 Switch to a new terminal and leave the cluster running in the background
+
+___
+ 
+ Install Python and additional requirements needed to run the ML-model 
+ 
+ ___
  
 Check Python installation with $ python3 --version
  
@@ -102,6 +116,12 @@ $ pip3 install tensorflow-cpu
 $ pip3 install kafka-python
 $ pip3 install xlrd
 $ pip3 install xlutils
+
+___
+
+Launch Kafka Producer and Kafka Consumer to start making predictions:
+
+___
  
 We are now set to start the Kafka Producer to write messages to our topic. The topic name is specified in the producer.py file as well as the path to the json file containing the data. Currently the producer is producing to a topic "JSONFINA" (line 31 producer.send('JSONFINA'. data[index])). It is also possible to change the waiting time between messages at line 33 sleep(2), 2 means it is currently set to wait 2 seconds between every new message.
 Start the producer located at the PMF_FINAL-main directory from within the virtual environment:
