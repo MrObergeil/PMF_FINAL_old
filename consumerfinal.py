@@ -9,6 +9,10 @@ import tensorflow as tf
 import sys
 import json
 
+
+model = tf.keras.models.load_model('lstm_model_6h', custom_objects=None, compile=True, options=None)
+
+
 consumer = KafkaConsumer(
     'JSONFINAL',
     bootstrap_servers=['localhost:9092'],
@@ -40,7 +44,7 @@ for message in consumer:
 
     if message_count == 48:
         dfPrediction = dfAll.copy()
-        prediction(dfPrediction)
+        prediction(dfPrediction, model)
         prediction_count += 1
         print('Success for prediction #', prediction_count)
         dfAll.drop(index=0, axis=0, inplace=True)
@@ -59,3 +63,4 @@ for message in consumer:
 # Call prediction
 
 #prediction(dfModel)
+
