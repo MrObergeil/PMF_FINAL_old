@@ -23,11 +23,10 @@ SET UP THE REPOSITORY Update the apt package index and install packages to allow
 $ sudo apt-get update
  
 $ sudo apt-get install apt-transport-https
-
-ca-certificates
-curl
-gnupg-agent
-software-properties-common
+$ sudo apt-get install ca-certificates
+$ sudo apt-get install curl
+$ sudo apt-get install gnupg-agent
+$ sudo apt-get install software-properties-common
  
 Add Docker’s official GPG key:
  
@@ -41,7 +40,7 @@ $ sudo apt update
  
 $ apt-cache policy docker-ce
  
-Install Docker $ sudo apt install docker-ce
+Install Docker $ sudo apt install docker-ce (Docker version 20.10.3)
  
 Check if Docker installation worked: "Status Active" $ sudo systemctl status docker
  
@@ -49,7 +48,7 @@ Run Docker test image to verify installation(might need root permissions)
  
 $docker run hello-world
  
-Install Docker Compose
+Install Docker Compose (version 1.26.0)
  
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
  
@@ -65,7 +64,7 @@ In your terminal switch to the folder "KafkaCluster", inside the "PMF_FINAL-main
  
 $ cd home/<user>/<downloadLocation>/PMF_FINAL-main/KafkaCluster
  
-Start Docker Container via Yaml-File, the Kafka Cluster is named kafka-cluster in the Yaml-File.
+Start Docker Container via Yaml-File, the Kafka Cluster is named "kafka-cluster" in the Yaml-File.
  
 $ sudo docker-compose up kafka-cluster
 
@@ -81,18 +80,18 @@ Switch to a new terminal and leave the cluster running in the background
 
 ___
  
- Install Python and additional requirements needed to run the ML-model 
+ Install Python and additional requirements needed to run the ML-model and Python Kafka Consumer
  
  ___
  
 Check Python installation with $ python3 --version
  
-Install Python if its not installed or not version 3.6 or higher
+Install Python if its not installed or is an older version than 3.6
  
-$ sudo apt-get update $ sudo apt-get install python3.8
+$ sudo apt-get update $ sudo apt-get install python 3.8
  
-Install pip: 
-$ sudo apt install python3-pip 
+Install pip3 ( version 20.0.2): 
+$ sudo apt install python3-pip
  
 Check pip version: 
 $ pip3 --version
@@ -100,26 +99,42 @@ $ pip3 --version
 
 Setting up the virtual environment: 
  
-1) install python virtual environment
+1) install python virtual environment 
 $ sudo apt install python3-venv
  
 2) create a python virtual environment in the main directory of the repository (../PMF_FINAL-main) 
+
 $ python3 -m venv PMF-venv 
  
 3) activate the environment
+
 $ source PMF-venv/bin/activate
  
-4) Within the active environment we can innstall the required pip3 packages
+4) Within the active environment we can install the required pip3 packages. You can check the versions of the packages with 
+ $ pip show "seaborn/tensorflow-cpu....".
  
-$ pip3 install seaborn
-$ pip3 install tensorflow-cpu
-$ pip3 install kafka-python
-$ pip3 install xlrd
-$ pip3 install xlutils
+ This also shows you any required other pip3 packages for each individual package (should be installed by pip automatically, if not manually add them using the pip3 install command.)
+
+ Install Seaborn (version 0.11.1): 
+$ pip3 install seaborn 
+
+Install Tensorflow (version 2.4.1):
+$ pip3 install tensorflow-cpu 
+
+Install Kafka-Python (version 2.0.2):
+$ pip3 install kafka-python 
+
+Install Xlrd (version 2.0.1):
+$ pip3 install xlrd 
+
+Install Xlutils (version 2.0.0):
+$ pip3 install xlutils 
+
+
 
 ___
 
-Launch Kafka Producer and Kafka Consumer to start making predictions:
+Launch the Kafka Producer and the Kafka Consumer to start making predictions:
 
 ___
  
@@ -128,7 +143,7 @@ Start the producer located at the PMF_FINAL-main directory from within the virtu
  
 $ python3 producer.py
  
-To confirm that the producer is working as intended confirm that your topic has been created using the webinterface at 127.0.0.1/3030/kafka-topics-ui/
+To confirm that the producer is working as intended confirm that your topic has been created in Apache Kafka using the webinterface at 127.0.0.1/3030/kafka-topics-ui/
  
 
 The next step is to start our consumer who will consume from our topic "JSONFINA" and make predictions.
@@ -137,7 +152,7 @@ Start the consumer by opening a new terminal and starting the consumer.py from w
 1) lets activate our virtual environment in the PMF_FINAL-main directory
 $ source PMF-venv/bin/activate
  
-2) lets start our producer
+2) lets start our consumer
 $ python3 consumer.py
  
 There are still a few warning but predictions are being made every time a new message arrives, after the initial first 48 messages.
