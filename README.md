@@ -155,6 +155,6 @@ $ source PMF-venv/bin/activate
 2) lets start our consumer
 $ python3 consumer.py
  
-There are still a few warning but predictions are being made every time a new message arrives, after the initial first 48 messages.
+
 
 
