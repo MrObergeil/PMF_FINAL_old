@@ -1,3 +1,4 @@
+
 Particular Matter Forecast
  
 PMF Documentation:
@@ -22,13 +23,13 @@ SET UP THE REPOSITORY Update the apt package index and install packages to allow
  
 $ sudo apt-get update
  
-$ sudo apt-get install apt-transport-https
-$ sudo apt-get install ca-certificates
-$ sudo apt-get install curl
-$ sudo apt-get install gnupg-agent
-$ sudo apt-get install software-properties-common
+$ sudo apt-get install apt-transport-https <br>
+$ sudo apt-get install ca-certificates<br>
+$ sudo apt-get install curl<br>
+$ sudo apt-get install gnupg-agent<br>
+$ sudo apt-get install software-properties-common<br>
  
-Add Docker’s official GPG key:
+Add Docker’s official GPG key:<br>
  
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
  
@@ -40,9 +41,11 @@ $ sudo apt update
  
 $ apt-cache policy docker-ce
  
-Install Docker $ sudo apt install docker-ce (Docker version 20.10.3)
+Install Docker (Docker version 20.10.3): <br>
+ $ sudo apt install docker-ce
  
-Check if Docker installation worked: "Status Active" $ sudo systemctl status docker
+Check if Docker installation worked: "Status Active" <br>
+ $ sudo systemctl status docker
  
 Run Docker test image to verify installation(might need root permissions)
  
@@ -56,13 +59,14 @@ Set user permissions
  
 $ sudo chmod +x /usr/local/bin/docker-compose
  
-Verify installation $ docker-compose --version
+Verify installation <br>
+$ docker-compose --version
  
  ___
  
 In your terminal switch to the folder "KafkaCluster", inside the "PMF_FINAL-main" repository. This folder  contains the docker-compose.yml file, with the configurations for Kafka Cluster.
  
-$ cd home/<user>/<downloadLocation>/PMF_FINAL-main/KafkaCluster
+$ cd home/ 'user'/'downloadLocation'/PMF_FINAL-main/KafkaCluster
  
 Start Docker Container via Yaml-File, the Kafka Cluster is named "kafka-cluster" in the Yaml-File.
  
@@ -84,11 +88,13 @@ ___
  
  ___
  
-Check Python installation with $ python3 --version
+Check Python installation with: <br>
+ $ python3 --version
  
 Install Python if its not installed or is an older version than 3.6
  
-$ sudo apt-get update $ sudo apt-get install python 3.8
+$ sudo apt-get update <br>
+$ sudo apt-get install python 3.8
  
 Install pip3 ( version 20.0.2): 
 $ sudo apt install python3-pip
@@ -104,11 +110,11 @@ $ sudo apt install python3-venv
  
 2) create a python virtual environment in the main directory of the repository (../PMF_FINAL-main) 
 
-$ python3 -m venv PMF-venv 
+	$ python3 -m venv PMF-venv 
  
 3) activate the environment
 
-$ source PMF-venv/bin/activate
+	$ source PMF-venv/bin/activate
  
 4) Within the active environment we can install the required pip3 packages. You can check the versions of the packages with 
  $ pip show "seaborn/tensorflow-cpu....".
@@ -154,7 +160,5 @@ $ source PMF-venv/bin/activate
  
 2) lets start our consumer
 $ python3 consumer.py
- 
 
-
-
+The consumer is set to make 1600 predictions and makes one prediction every time there arrives a new message.
