@@ -222,4 +222,5 @@ source PMF-venv/bin/activate
 python3 consumerfinal.py
 ```
 
-The consumer is currently set up to make 1600 predictions and makes one prediction every time new message(Sensordata) arrives. This can be changed in the pythonscript "consumerfinal.py" at line 53  "prediction_count==1600"
+The consumer is currently set up to make 1600 predictions and makes one prediction every time new message(Sensordata) arrives. This can be changed in the pythonscript "consumerfinal.py" at line 53  "prediction_count==1600".
+The consumer initally waits for 48 messages (24h of data) to make the first prediction, then every time a new message arrives he makes a new prediction incoperating that new data.
