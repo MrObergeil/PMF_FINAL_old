@@ -8,7 +8,8 @@ ___
 1. CPU with AVX/AVX2 support
 2. GPU with CUDA support beneficial
 3. Linux operating system with GUI (Ubuntu 20.04)
-4. Internet connection
+4. 8GB of RAM
+5. Internet connection
 
 ___
 
@@ -16,10 +17,11 @@ ___
 
 ### Install Docker
 
-Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+Update and Upgrade the apt package index and install packages to allow apt to use a repository over HTTPS:
 
 ```
 sudo apt-get update
+sudo apt-get upgrade
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 ```
 
@@ -34,6 +36,7 @@ Use the following command to set up the stable repository.
 ```
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 sudo apt update
+sudo apt upgrade
 apt-cache policy docker-ce
 ```
 
@@ -49,16 +52,27 @@ Check if Docker installation worked: "Status Active"
 sudo systemctl status docker
 ```
 
-Run Docker test image to verify installation(might need root permissions)
+Run the Docker test image to verify installation (might need root permissions)
 
 ```
 sudo docker run hello-world
 ```
 
-Install Docker Compose (version 1.26.0)
+
+### Set up the Project
+
+Download or clone this repository. Do not move or rename any directories, this could lead to errors.
+
+`git clone https://github.com/MrObergeil/PMF_FINAL.git`
+
+Install Docker Compose (version 1.26.0), if you not want to install it Global, or have problems because of missing permissions/PATH skip this step and install Docker Compose later via pip3 in your virtual environment.
 
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-(uname -s)-(uname -m)" -o /usr/local/bin/docker-compose
+
+OR
+
+sudo apt install docker-compose
 ```
 
 Set user permissions
@@ -72,34 +86,6 @@ Verify installation
 ```
 docker-compose --version
 ```
-
-### Set up the Project
-
-Download or clone this repository.
-
-`git clone https://github.com/MrObergeil/PMF_FINAL.git`
-
-In your terminal switch to the folder "KafkaCluster", inside the "PMF_FINAL" repository. This folder  contains the docker-compose.yml file, with the configurations for Kafka Cluster.
-
-```
-cd home/<user>/<downloadLocation>/PMF_FINAL/Kafka\ Cluster
-```
-
-Start Docker Container via Yaml-File, the Kafka Cluster is named "kafka-cluster" in the Yaml-File.
-
-```
-sudo docker-compose up kafka-cluster
-```
-
-This will download the required Docker-Image and start your Cluster
-
-Wait 1-2 min for the cluster to start up
-
-Access LensesIO-Webinterface via `127.0.0.1:3030` to monitor and check the status of your Kafka Cluster
-
-Your Kafka Cluster should now be ready to use
-
-Switch to a new terminal and leave the cluster running in the background
 
 
 #### Install dependencies for the ML-model
@@ -137,19 +123,21 @@ Install python virtual environment
 sudo apt-get install python3-venv
 ```
 
-Create a python virtual environment in the main directory of the repository (../PMF_FINAL)
+Create a python virtual environment (PMF-venv) in the main directory of the repository (../PMF_FINAL)
 
 ```
+cd PMF_FINAL
+
 python3 -m venv PMF-venv
 ```
 
-Activate the environment
+Activate the virtual environment
 
 ```
 source PMF-venv/bin/activate
 ```
 
-Within the active environment we can install the required pip3 packages. You can check the versions of the packages with
+Within the active environment we can install the required pip3 packages. You can check the versions of the packages with "pip show nameofpackage"
 
 ```
 pip show "seaborn/tensorflow-cpu....".
@@ -168,15 +156,56 @@ Install requred python packages
 ```
 pip3 install numpy==1.19.2 seaborn==0.11.1 tensorflow-cpu==2.4.1 kafka-python==2.0.2 xlrd==2.0.1 xlutils==2.0.0
 ```
+Install Docker Compose (only necessary if you didnt install Docker Compose globally)
+```
+pip3 install docker-compose==1.26.0
+```
 
+Verify Docker Compose installation
+
+```
+docker-compose --version
+```
+
+In your terminal switch to the folder "Kafka_Cluster", inside the "PMF_FINAL" repository. This folder  contains the docker-compose.yml file, with the configurations for the Kafka Cluster.
+
+```
+cd home/<user>/<downloadLocation>/PMF_FINAL/Kafka_Cluster
+```
+
+Start Docker Container using docker-compose on the Yaml-File, the Kafka Cluster is declared as "kafka-cluster" in the Yaml-File.
+
+For global Docker Compose Installation (execute in new Terminal or exit your virtual environment)sz:
+```
+sudo docker-compose up kafka-cluster
+
+```
+
+If you only installed Docker Compose inside your virtual environment (PMF-venv), you have to activate the environment first before you can start Docker-Compose
+```
+source PMF-venv/bin/activate
+sudo docker-compose up kafka-cluster
+```
+
+This will download the required Docker-Image and start your Cluster
+
+Wait 1-2 min for the cluster to start up
+
+Access LensesIO-Webinterface via `127.0.0.1:3030` to monitor and check the status of your Kafka Cluster
+
+Your Kafka Cluster should now be ready to use
+
+Switch to a new terminal and leave the terminal which runs the cluster running in the background
 ---
 
 ## Launch the Kafka Producer and the Kafka Consumer to start making predictions:
 
 We are now set to start the Kafka Producer to write messages to our topic. The topic name is specified in the producer.py file as well as the path to the json file containing the data. Currently the producer is producing to a topic "JSONFINA" (line 31 producer.send('JSONFINA'. data[index])). It is also possible to change the waiting time between messages at line 33 sleep(2), 2 means it is currently set to wait 2 seconds between every new message.
-Start the producer located at the PMF_FINAL directory from within the virtual environment:
+Start the producer located in the PMF_FINAL directory from within the virtual environment:
 
 ```
+cd /PMF_FINAL
+source PMF-venv/bin/activate
 python3 producer.py
 ```
 
@@ -185,16 +214,12 @@ To confirm that the producer is working as intended confirm that your topic has 
 The next step is to start our consumer who will consume from our topic "JSONFINA" and make predictions.
 Start the consumer by opening a new terminal and starting the consumer.py from within the virtual environment.
 
-Lets activate our virtual environment in the PMF_FINAL-main directory
+Lets activate our virtual environment in the PMF_FINAL-main directory and start the Kafka Consumer.
 
 ```
+cd /PMF_FINAL
 source PMF-venv/bin/activate
-```
-
-Lets start our consumer
-
-```
 python3 consumerfinal.py
 ```
 
-The consumer is set to make 1600 predictions and makes one prediction every time there arrives a new message.
+The consumer is currently set up to make 1600 predictions and makes one prediction every time new message(Sensordata) arrives.
